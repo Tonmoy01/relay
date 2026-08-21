@@ -3,7 +3,7 @@
 Relay is split into two independently deployable Next.js applications:
 
 - `landing-page/` — marketing page deployed at `https://relay-landing-page.vercel.app`
-- `chat-app/` — login and chat application deployed at `https://relay-chat-app.vercel.app`
+- `chat-app/` — login and chat application deployed at `https://relay-chat-app-two.vercel.app`
 
 The landing page opens the chat app in a new tab. The chat app links back to the landing page in a new tab.
 
@@ -14,7 +14,7 @@ Create two Vercel projects from the same repository and set each project’s **R
 | Vercel project     | Root directory | Domain                          |
 | ------------------ | -------------- | ------------------------------- |
 | Relay Landing Page | `landing-page` | `relay-landing-page.vercel.app` |
-| Relay Chat App     | `chat-app`     | `relay-chat-app.vercel.app`     |
+| Relay Chat App     | `chat-app`     | `relay-chat-app-two.vercel.app`     |
 
 For the chat app, configure these environment variables in Vercel:
 

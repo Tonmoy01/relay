@@ -18,6 +18,6 @@ npm run dev
 
 Deploy this folder as its own Vercel project with the domain:
 
-`https://relay-chat-app.vercel.app`
+`https://relay-chat-app-two.vercel.app`
 
 The login screen links back to `https://relay-landing-page.vercel.app` in a new tab.

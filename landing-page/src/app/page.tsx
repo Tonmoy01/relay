@@ -41,7 +41,7 @@ export default function Home() {
           </a>
           <a
             className="border-b border-ink pb-1 text-ink"
-            href="https://relay-chat-app.vercel.app"
+            href="https://relay-chat-app-two.vercel.app"
             target="_blank"
             rel="noreferrer"
           >
@@ -64,7 +64,7 @@ export default function Home() {
           <div className="flex items-center gap-5.5">
             <a
               className={`${button} bg-relay-deep text-white hover:bg-[#214f37]`}
-              href="https://relay-chat-app.vercel.app"
+              href="https://relay-chat-app-two.vercel.app"
               target="_blank"
               rel="noreferrer"
             >
@@ -221,7 +221,7 @@ export default function Home() {
         </h2>
         <a
           className={`${button} bg-ink text-white`}
-          href="https://relay-chat-app.vercel.app"
+          href="https://relay-chat-app-two.vercel.app"
           target="_blank"
           rel="noreferrer"
         >
