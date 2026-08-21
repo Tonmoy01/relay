@@ -6,7 +6,7 @@ export default function LoginPage() {
       <div className="w-[min(100%,440px)] rounded-[22px] border border-line bg-white/85 p-11.5 shadow-[0_24px_60px_#294a3714] max-sm:px-5.5 max-sm:py-7.5">
         <a
           className="text-[1.4rem] font-extrabold tracking-[-.08em]"
-          href="https://relay-landing-page.vercel.app"
+          href="https://relay-landing-page-seven.vercel.app"
           target="_blank"
           rel="noreferrer"
         >
@@ -24,7 +24,7 @@ export default function LoginPage() {
         <LoginForm />
         <a
           className="mt-6.5 block text-center text-[.71rem] text-muted hover:text-ink"
-          href="https://relay-landing-page.vercel.app"
+          href="https://relay-landing-page-seven.vercel.app"
           target="_blank"
           rel="noreferrer"
         >
