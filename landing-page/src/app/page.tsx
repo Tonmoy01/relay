@@ -39,9 +39,14 @@ export default function Home() {
           <a className="hover:text-ink max-md:hidden" href="#how-it-works">
             How it works
           </a>
-          <Link className="border-b border-ink pb-1 text-ink" href="/login">
+          <a
+            className="border-b border-ink pb-1 text-ink"
+            href="https://relay-chat-app.vercel.app"
+            target="_blank"
+            rel="noreferrer"
+          >
             Open chat ↗
-          </Link>
+          </a>
         </div>
       </nav>
       <section
@@ -57,12 +62,14 @@ export default function Home() {
             the groups that keep projects moving.
           </p>
           <div className="flex items-center gap-5.5">
-            <Link
+            <a
               className={`${button} bg-relay-deep text-white hover:bg-[#214f37]`}
-              href="/login"
+              href="https://relay-chat-app.vercel.app"
+              target="_blank"
+              rel="noreferrer"
             >
               Start a conversation <span>→</span>
-            </Link>
+            </a>
             <a
               className="text-[.82rem] font-bold text-relay-deep hover:text-ink"
               href="#how-it-works"
@@ -212,9 +219,14 @@ export default function Home() {
             A lot more conversation.
           </em>
         </h2>
-        <Link className={`${button} bg-ink text-white`} href="/login">
+        <a
+          className={`${button} bg-ink text-white`}
+          href="https://relay-chat-app.vercel.app"
+          target="_blank"
+          rel="noreferrer"
+        >
           Open Relay <span>↗</span>
-        </Link>
+        </a>
       </section>
       <footer
         className={`${pageWidth} flex items-center justify-between border-t border-line py-6 text-[.68rem] text-muted max-md:flex-wrap max-md:gap-3`}

@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #18241f;
+  --color-muted: #6d7971;
+  --color-paper: #f5f6f0;
+  --color-card: #ffffff;
+  --color-line: #dce3dc;
+  --color-relay-green: #9bd7ae;
+  --color-relay-deep: #2b6346;
+  --color-relay-warm: #e9b67c;
+  --color-relay-coral: #e48770;
+  --font-sans: Arial, Helvetica, sans-serif;
+}
+
+@layer base {
+  * {
+    @apply box-border;
+  }
+  html {
+    @apply scroll-smooth;
+  }
+  body {
+    @apply m-0 bg-paper font-sans text-ink;
+  }
+  button,
+  input {
+    @apply font-sans;
+  }
+  a {
+    @apply text-inherit no-underline;
+  }
+  button {
+    @apply cursor-pointer;
+  }
+  button:disabled {
+    @apply cursor-not-allowed opacity-60;
+  }
+}
