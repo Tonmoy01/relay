@@ -1,6 +1,8 @@
+---
+
 # Chat API
 
-This document records the live API used by the frontend. The service exposes REST endpoints under `/api` and a Socket.IO server at the host root.
+This is the live API the frontend actually talks to. REST endpoints live under `/api`, and the Socket.IO server is at the host root.
 
 ## Base URLs
 
@@ -9,7 +11,7 @@ REST:    https://frontend-task-chatapp.onrender.com/api
 Socket:  https://frontend-task-chatapp.onrender.com
 ```
 
-The health check is an exception to the REST prefix:
+Health check is a bit special — it doesn’t use the `/api` prefix:
 
 ```text
 GET https://frontend-task-chatapp.onrender.com/health
@@ -17,7 +19,7 @@ GET https://frontend-task-chatapp.onrender.com/health
 
 ## Authentication
 
-Login returns a JWT. Send it on protected REST requests:
+Login gives you a JWT. Stick it on protected REST calls like this:
 
 ```http
 Authorization: Bearer <token>
@@ -31,7 +33,7 @@ io("https://frontend-task-chatapp.onrender.com", {
 });
 ```
 
-Unauthenticated requests currently return HTTP `400` with an error object such as:
+If you forget the token, the API currently replies with HTTP `400` and something like:
 
 ```json
 {
@@ -44,11 +46,11 @@ Unauthenticated requests currently return HTTP `400` with an error object such a
 
 ## REST endpoints
 
-All examples below use JSON request bodies where shown.
+All the examples below use JSON bodies where relevant.
 
 ### `POST /auth/login`
 
-Login or register automatically by phone number.
+Logs you in (or registers you) with a phone number.
 
 Request:
 
@@ -75,7 +77,7 @@ Response `200`:
 
 ### `GET /auth/me`
 
-Return the user represented by the bearer token.
+Returns the user that matches the bearer token.
 
 Response `200`:
 
@@ -90,7 +92,7 @@ Response `200`:
 
 ### `GET /users/search?q=<term>`
 
-Search users by name or phone number.
+Search users by name or phone.
 
 Response `200`:
 
@@ -106,7 +108,7 @@ Response `200`:
 
 ### `GET /conversations`
 
-Return the current user's direct and group conversations.
+Returns the current user’s direct and group conversations.
 
 Response `200`:
 
@@ -118,7 +120,7 @@ Response `200`:
 
 ### `POST /conversations`
 
-Start or open a direct conversation.
+Starts or opens a direct conversation.
 
 Request:
 
@@ -143,7 +145,7 @@ Response `200`:
 
 ### `GET /conversations/:id/messages?limit=20&before=<messageId>`
 
-Return a page of message history. `before` is optional and requests older messages.
+Fetches a page of message history. `before` is optional — use it to load older messages.
 
 Response `200`:
 
@@ -164,7 +166,7 @@ Response `200`:
 
 ### `POST /messages`
 
-Send a message to a direct or group conversation.
+Sends a message to a direct or group conversation.
 
 Request:
 
@@ -187,11 +189,11 @@ Response `200`:
 }
 ```
 
-The API currently accepts whitespace-only text with HTTP `200`; the frontend must trim and reject empty messages before sending.
+Note: the API currently accepts pure whitespace and still returns `200`. The frontend trims the text and rejects empty messages before sending.
 
 ### `POST /conversations/group`
 
-Create a group conversation. `participantIds` must contain enough users for at least three total members, including the creator.
+Creates a group. `participantIds` needs enough people so the group ends up with at least three members (including the creator).
 
 Request:
 
@@ -228,19 +230,19 @@ Response `201`:
 
 ## Socket.IO events
 
-The client connects to the host root, not `/api`.
+Connect to the host root (not `/api`).
 
 ### `message:new`
 
-Server to client. A new message object is delivered. The frontend adds it to the matching conversation and deduplicates by `_id`.
+Server → client. A new message arrives. The frontend drops it into the right conversation and dedupes by `_id`.
 
 ### `conversation:updated`
 
-Server to client. Conversation metadata or group membership changed. The frontend refreshes the conversation list and active conversation.
+Server → client. Conversation metadata or group membership changed. Frontend refreshes the conversation list and the currently open chat.
 
 ### `message:send`
 
-Client to server, with an optional acknowledgement callback:
+Client → server (optional acknowledgement callback):
 
 ```json
 {
@@ -249,15 +251,15 @@ Client to server, with an optional acknowledgement callback:
 }
 ```
 
-The frontend uses REST for sending so it can display the HTTP result directly, while Socket.IO handles incoming real-time updates.
+In practice the frontend still sends messages over REST so it can show the HTTP response right away. Socket.IO is mainly used for incoming real-time updates.
 
-## Additional group endpoints
+## Extra group endpoints
 
-The API also exposes group management routes for adding/removing participants, promoting admins, and renaming groups. They are documented by the supplied Swagger contract but are outside the minimum UI scope for this assignment.
+There are also routes for adding/removing people, promoting admins, and renaming groups. They’re in the Swagger file, but they’re outside the minimum scope for this assignment.
 
-## Known API details
+## A few things we noticed
 
-- The Swagger definition intentionally omits response bodies and status codes, so the examples above were captured from live requests.
-- The documented `/api/health` route returns `404`; the live health endpoint is `/health`.
-- Missing authentication returns `400 NO_TOKEN`.
-- Whitespace-only messages are accepted by the API, so the frontend performs the required validation.
+- Swagger intentionally leaves out response bodies and status codes, so the examples above come from actual live requests.
+- The documented `/api/health` route returns `404`. The real health endpoint is just `/health`.
+- Missing auth comes back as `400 NO_TOKEN`.
+- Whitespace-only messages are accepted by the API, so the frontend has to validate them.

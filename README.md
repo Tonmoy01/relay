@@ -11,10 +11,10 @@ The landing page opens the chat app in a new tab. The chat app links back to the
 
 Create two Vercel projects from the same repository and set each project’s **Root Directory**:
 
-| Vercel project | Root directory | Domain |
-| --- | --- | --- |
+| Vercel project     | Root directory | Domain                          |
+| ------------------ | -------------- | ------------------------------- |
 | Relay Landing Page | `landing-page` | `relay-landing-page.vercel.app` |
-| Relay Chat App | `chat-app` | `relay-chat-app.vercel.app` |
+| Relay Chat App     | `chat-app`     | `relay-chat-app.vercel.app`     |
 
 For the chat app, configure these environment variables in Vercel:
 
@@ -42,5 +42,3 @@ cd chat-app
 npm install
 npm run dev
 ```
-
-Each app has its own README with project-specific details.
