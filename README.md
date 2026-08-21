@@ -1,5 +1,3 @@
-Here's a more natural, human-sounding rewrite of the docs:
-
 ---
 
 ## Routes
