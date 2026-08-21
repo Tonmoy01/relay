@@ -1,78 +1,86 @@
+Here's a more natural, human-sounding rewrite of the docs:
+
+---
+
 ## Routes
 
-- `/` — landing page.
-- `/login` — login/register form.
-- `/chat` — authenticated chat application.
+- `/` — landing page  
+- `/login` — login / register form  
+- `/chat` — the actual chat app (you need to be logged in)
 
-## Run locally
+## Running it locally
 
-Requirements: Node.js 22 or newer and npm.
+You’ll need **Node.js 22+** and npm.
 
 ```bash
 npm install
 npm run dev
 ```
 
-Open the deployed app at [https://relay-tonmoy.vercel.app](https://relay-tonmoy.vercel.app).
+The live version is here: [https://relay-tonmoy.vercel.app](https://relay-tonmoy.vercel.app)
 
-The default API points to the assignment service. To use a different deployment, create `.env.local`:
+By default it talks to the assignment backend. If you want to point it somewhere else, create a `.env.local` file:
 
 ```env
 NEXT_PUBLIC_API_URL=https://frontend-task-chatapp.onrender.com/api
 NEXT_PUBLIC_SOCKET_URL=https://frontend-task-chatapp.onrender.com
 ```
 
-## Verification commands
+## Quick checks
 
 ```bash
 npm run lint
 npm run build
 ```
 
-The build uses Next.js Webpack mode for reliable production verification in restricted environments.
+The build runs in Next.js Webpack mode so it stays reliable even in more restricted environments.
 
 ## Tech stack
 
-- Next.js App Router
-- React and TypeScript
-- Tailwind CSS v4 utility classes for component styling
-- Socket.IO client for real-time updates
-- Native `fetch` and React state for a deliberately small client architecture
+- Next.js (App Router)
+- React + TypeScript
+- Tailwind CSS v4
+- Socket.IO client for real-time stuff
+- Plain `fetch` + React state — kept the client intentionally simple
 
-## API documentation
+## API docs
 
-The API contract is documented in [docs/API.md](./docs/API.md). It includes the live request and response shapes, authentication, pagination, WebSocket events, status codes, and known API inconsistencies.
+Full API contract lives in [docs/API.md](./docs/API.md). It covers the actual request/response shapes we saw in production, auth, pagination, WebSocket events, status codes, and a few quirks we ran into.
 
-## Architecture notes
+## How it’s structured
 
-The application keeps the API client and response normalization in `src/lib/api.ts`, authentication storage in `src/lib/auth.ts`, and display formatting in `src/lib/format.ts`. The chat screen is split between the stateful `src/components/chat-app.tsx` orchestrator and reusable UI components in `src/components/chat/` for the sidebar, message panel, modals, search results, and shared controls. The login form and landing page remain separate UI surfaces.
+- API client + response normalization → `src/lib/api.ts`
+- Auth storage → `src/lib/auth.ts`
+- Display helpers → `src/lib/format.ts`
 
-The API returns different shapes for direct and group conversation list items, so the API client normalizes those responses before they reach the UI. The frontend trims messages before sending because the live API currently accepts whitespace-only messages.
+The chat screen is split into a stateful orchestrator (`src/components/chat-app.tsx`) and smaller UI pieces under `src/components/chat/` (sidebar, message panel, modals, search, etc.). Login and landing pages are separate.
 
-JWTs are kept in `sessionStorage` for this client-only take-home application. They are cleared on logout or an invalid-session response. React-rendered message text is never inserted as raw HTML.
+The API returns different shapes for direct chats vs group chats, so the client normalizes everything before it hits the UI. We also trim messages on the frontend because the live API currently accepts pure whitespace.
 
-## Design decisions
+JWTs live in `sessionStorage` (this is a client-only take-home). They’re cleared on logout or when the session becomes invalid. Message text is never injected as raw HTML.
 
-The visual direction uses a quiet paper background, dark ink typography, green actions, and small coral/warm accents. The landing page intentionally focuses on the product’s core promise instead of adding generic marketing sections. The chat panel prioritizes readable message bubbles, clear timestamps, straightforward loading/empty/error states, and a small “new messages” affordance when the user is reading older history.
+## Design choices
 
-## Known API issues
+Went for a quiet paper background, dark ink text, green for actions, and a few small coral/warm accents. The landing page sticks to the core idea instead of the usual marketing sections. Chat UI focuses on readable bubbles, clear timestamps, sensible loading/empty/error states, and a small “new messages” indicator when you’re scrolled up in history.
 
-- Swagger omits response schemas and status codes, so `docs/API.md` records observed live responses.
-- `/health` works at the service root while `/api/health` returns `404`.
-- Missing authentication returns `400 NO_TOKEN`.
-- Whitespace-only messages are accepted by the API; the frontend prevents them.
+## Known API quirks
 
-## Improvements with more time
+- Swagger doesn’t include response schemas or status codes, so `docs/API.md` is based on what we actually observed.
+- `/health` works at the root; `/api/health` returns 404.
+- Missing auth comes back as `400 NO_TOKEN`.
+- The API accepts whitespace-only messages — the frontend blocks them.
 
-The next improvements would be richer group administration, stronger automated end-to-end coverage using mocked Socket.IO events, message virtualization for very large histories, and a server-side session boundary for a production deployment.
+## If there was more time
+
+Would like to add better group admin features, stronger e2e tests with mocked Socket.IO events, message virtualization for long histories, and a proper server-side session boundary for production.
 
 ## Deployment
 
-The frontend can be deployed to Vercel or another Next.js host. Configure the backend URLs as deployment environment variables:
+Works fine on Vercel or any other Next.js host. Just set these as environment variables:
 
 ```env
 NEXT_PUBLIC_API_URL=https://frontend-task-chatapp.onrender.com/api
 NEXT_PUBLIC_SOCKET_URL=https://frontend-task-chatapp.onrender.com
 ```
 
-The API and Socket.IO service must remain reachable and allow the deployed frontend origin through CORS and WebSocket settings.
+Make sure the backend allows the frontend origin for both CORS and WebSocket connections.
